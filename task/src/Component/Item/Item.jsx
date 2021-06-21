@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import './Item.css'
 
-function Item(props) {
-    const { time, directionCity, flight, company, status } = props
+function Item({ time, directionCity, flight, company, status }) {
 
     let regExpTime = /(\d+:\d+)/gm
     let normalTime = time.match(regExpTime);
@@ -11,25 +10,18 @@ function Item(props) {
         switch (status) {
             case 'FR':
                 return 'В польоті'
-                break;
             case 'BD':
                 return 'Посадка'
-                break;
             case 'ON':
                 return 'Вчасно'
-                break;
             case 'CK':
                 return 'Реєстрація'
-                break;
             case 'DP':
                 return 'Вилетів'
-                break;
             case 'LN':
                 return 'Прибув'
-                break;
             case 'GC':
                 return 'Посадка закінчена'
-                break;
             default:
                 break;
         }

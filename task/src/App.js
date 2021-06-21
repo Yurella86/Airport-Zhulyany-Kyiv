@@ -8,7 +8,10 @@ function App() {
       <header><h1>Розклад аеропорт “Київ”</h1></header>
 
       <main>
+
         <Scoreboard />
+
+
       </main>
 
     </div>
