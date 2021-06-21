@@ -11,11 +11,30 @@ function Scoreboard() {
     }
 
     const [direction, setDirection] = useState('departure')
+    const [filter, setFilter] = useState()
     const [items, setItems] = useState()
     const [date, setDate] = useState()
 
     const fullNowDate = new Date()
     const todday = `${fullNowDate.getDate()}-${fullNowDate.getMonth() + 1}-${fullNowDate.getFullYear()}`
+
+    function getFilter(word) {
+        if (word) {
+            if (direction === 'departure') {
+                const arrayfilltered = state.direction.filter(item =>
+                    item.['airportToID.city'].toUpperCase().includes(word.toUpperCase())
+                    || item.codeShareData[0].codeShare.toUpperCase().includes(word.toUpperCase()))
+                return arrayfilltered
+            } else {
+                const arrayfilltered = state.direction.filter(item =>
+                    item.['airportFromID.city'].toUpperCase().includes(word.toUpperCase())
+                    || item.codeShareData[0].codeShare.toUpperCase().includes(word.toUpperCase()))
+                return arrayfilltered
+            }
+        } else {
+            return state.direction
+        }
+    };
 
     useEffect(async () => {
         let urlDay = ''
@@ -32,23 +51,27 @@ function Scoreboard() {
         console.log(direction);
         console.log(state.direction);
 
-        const arrayItems = state.direction.map((item) => <Item
+        console.log(filter);
+
+        const arrayFiltered = getFilter(filter)
+
+        const arrayItems = arrayFiltered.map((item) => <Item
             key={item.ID}
             time={item.timeToStand}
-            directionCity={item.['airportToID.city']}
+            directionCity={item.['airportToID.city'] || item.['airportFromID.city']}
             flight={item.codeShareData[0].codeShare}
             company={item.codeShareData[0].airline.ua.name}
             status={item.['status']} />)
 
         setItems(arrayItems)
 
-    }, [direction])
+    }, [direction, filter])
 
     return (
         <div className="scoreboard">
             <div className="search">
                 <div className="icon-search"></div>
-                <input placeholder="Номер рейсу або місто" />
+                <input onChange={(el) => { setFilter(el.target.value) }} laceholder="Номер рейсу або місто" />
                 <input onChange={(el) => { setDate(el.target.value) }} className="data" type="date" />
                 <button  >Пошук</button>
             </div>

@@ -9,8 +9,11 @@ function Item(props) {
 
     let position = () => {
         switch (status) {
-            case 'FP':
+            case 'FR':
                 return 'В польоті'
+                break;
+            case 'BD':
+                return 'Посадка'
                 break;
             case 'ON':
                 return 'Вчасно'
