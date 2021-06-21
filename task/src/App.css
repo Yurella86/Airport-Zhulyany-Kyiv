@@ -1,0 +1,38 @@
+* {
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+.container {
+  position: relative;
+  width: 1440px;
+  height: 1024px;
+  margin: 0 auto;
+  background-color: #000000;
+}
+.container header {
+  width: 100%;
+  height: 472px;
+  background-image: url('./img/Hero.png');
+}
+header h1 {
+  height: 82px;
+  font-weight: 500;
+  font-size: 70px;
+  line-height: 82px;
+  text-align: center;
+  padding-top: 195px;
+  color: #f0f0f0;
+}
+
+main {
+  top: 472px;
+  height: 100%;
+  background-color: #f0f0f0;
+}
+
+footer {
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+}
