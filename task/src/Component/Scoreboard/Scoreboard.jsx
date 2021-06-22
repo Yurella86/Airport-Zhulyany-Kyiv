@@ -36,7 +36,7 @@ function Scoreboard(props) {
     function pushItems() {
 
         const arrayFiltered = getFilter(filter)
-
+        console.log(props);
         const arraylist = arrayFiltered.map((item) => <Item
             key={item.ID}
             time={item.timeToStand}
@@ -109,7 +109,7 @@ function Scoreboard(props) {
 function mapStateToProps(state) {
     return {
         store: state,
-        list: state.direction[0],
+        list: state.direction,
     };
 }
 

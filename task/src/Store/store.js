@@ -17,7 +17,7 @@ function itemsReducer(state = initialState, action) {
 
         case CHANGE:
             const newState = { ...state };
-            newState.direction = [...newState.direction, action.array];
+            newState.direction = action.array
             return newState;
 
         default:
