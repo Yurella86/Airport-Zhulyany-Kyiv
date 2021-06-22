@@ -48,32 +48,25 @@ function Scoreboard(props) {
 
         props.change(items)
 
-    }
+    };
 
     function getScheduleRequest(date) {
         fetch(`https://api.iev.aero/api/flights/${date}`)
             .then(response => response.json())
             .then(obj => obj.body)
             .then((body) => {
-                direction === 'departure' ? props.change = body.departure : props.change = body.arrival
+                direction === 'departure' ? props.change(body.departure) : props.change(body.arrival)
                 pushItems()
             })
+    }
+
+    function handleSearchClick() {
+        getScheduleRequest(NewDate)
     }
 
     useEffect(() => {
         getScheduleRequest(todday)
-    }, [])
-
-    function handleSearchClick() {
-        fetch(`https://api.iev.aero/api/flights/${NewDate}`)
-            .then(response => response.json())
-            .then(obj => obj.body)
-            .then((body) => {
-                direction === 'departure' ? props.change = body.departure : props.change = body.arrival
-                pushItems()
-            })
-    }
-
+    }, [props.list])
     return (
         <div className="scoreboard">
             <div className="search">
@@ -131,5 +124,6 @@ const ScoreboardHOC = connect(
     mapStateToProps,
     mapDispatchToProps
 );
+
 
 export default ScoreboardHOC(Scoreboard);

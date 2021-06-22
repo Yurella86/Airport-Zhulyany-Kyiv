@@ -1,26 +1,23 @@
 import { createStore } from 'redux';
 const CHANGE = 'CHANGE';
 
-const store = createStore(Reducer);
-
-const initialState = {
-    direction: []
-};
-
 export function change(array) {
     return {
         type: CHANGE,
         array
     };
-}
+};
 
+const initialState = {
+    direction: []
+};
 
-function Reducer(state = initialState, action) {
+function itemsReducer(state = initialState, action) {
     switch (action.type) {
 
         case CHANGE:
-            const newState = { state };
-            newState.direction = [newState.direction, action.array];
+            const newState = { ...state };
+            newState.direction = [...newState.direction, action.array];
             return newState;
 
         default:
@@ -28,5 +25,8 @@ function Reducer(state = initialState, action) {
     }
 }
 
+console.log(initialState);
+
+const store = createStore(itemsReducer);
 
 export default store;
