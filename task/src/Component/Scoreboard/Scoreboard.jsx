@@ -66,7 +66,7 @@ function Scoreboard(props) {
 
     useEffect(() => {
         getScheduleRequest(todday)
-    }, [props.list])
+    }, [])
     return (
         <div className="scoreboard">
             <div className="search">
@@ -109,7 +109,7 @@ function Scoreboard(props) {
 function mapStateToProps(state) {
     return {
         store: state,
-        list: state.direction,
+        list: state.direction[0],
     };
 }
 
