@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import './Scoreboard.css'
 import Item from './../Item/Item'
+import { change } from './../../Store/store';
+import { connect } from 'react-redux';
 
 
+function Scoreboard(props) {
 
-function Scoreboard() {
-
-    const state = {
-        direction: [],
-    }
 
     const todday = `${new Date().getDate()}-${new Date().getMonth() + 1}-${new Date().getFullYear()}`
 
@@ -20,32 +18,36 @@ function Scoreboard() {
     function getFilter(word) {
         if (word) {
             if (direction === 'departure') {
-                const arrayfilltered = state.direction.filter(item =>
+                const arrayfilltered = props.list.filter(item =>
                     item.['airportToID.city'].toUpperCase().includes(word.toUpperCase())
                     || item.codeShareData[0].codeShare.toUpperCase().includes(word.toUpperCase()))
                 return arrayfilltered
             } else {
-                const arrayfilltered = state.direction.filter(item =>
+                const arrayfilltered = props.list.filter(item =>
                     item.['airportFromID.city'].toUpperCase().includes(word.toUpperCase())
                     || item.codeShareData[0].codeShare.toUpperCase().includes(word.toUpperCase()))
                 return arrayfilltered
             }
         } else {
-            return state.direction
+            return props.list
         }
     };
 
     function pushItems() {
+
         const arrayFiltered = getFilter(filter)
 
-        const arrayItems = arrayFiltered.map((item) => <Item
+        const arraylist = arrayFiltered.map((item) => <Item
             key={item.ID}
             time={item.timeToStand}
             directionCity={item.['airportToID.city'] || item.['airportFromID.city']}
             flight={item.codeShareData[0].codeShare}
             company={item.codeShareData[0].airline.ua.name}
             status={item.['status']} />)
-        setItems(arrayItems)
+        setItems(arraylist)
+
+        props.change(items)
+
     }
 
     function getScheduleRequest(date) {
@@ -53,7 +55,7 @@ function Scoreboard() {
             .then(response => response.json())
             .then(obj => obj.body)
             .then((body) => {
-                direction === 'departure' ? state.direction = body.departure : state.direction = body.arrival
+                direction === 'departure' ? props.change = body.departure : props.change = body.arrival
                 pushItems()
             })
     }
@@ -67,8 +69,7 @@ function Scoreboard() {
             .then(response => response.json())
             .then(obj => obj.body)
             .then((body) => {
-
-                direction === 'departure' ? state.direction = body.departure : state.direction = body.arrival
+                direction === 'departure' ? props.change = body.departure : props.change = body.arrival
                 pushItems()
             })
     }
@@ -109,8 +110,26 @@ function Scoreboard() {
 
         </div>
 
-    )
+    );
+};
 
+function mapStateToProps(state) {
+    return {
+        store: state,
+        list: state.direction,
+    };
 }
 
-export default Scoreboard;
+
+function mapDispatchToProps(dispatch) {
+    return {
+        change: array => dispatch(change(array))
+    };
+}
+
+const ScoreboardHOC = connect(
+    mapStateToProps,
+    mapDispatchToProps
+);
+
+export default ScoreboardHOC(Scoreboard);
