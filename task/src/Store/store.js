@@ -1,12 +1,6 @@
 import { createStore } from 'redux';
-const CHANGE = 'CHANGE';
+import CHANGE from './typeAction';
 
-export function change(array) {
-    return {
-        type: CHANGE,
-        array
-    };
-};
 
 const initialState = {
     direction: []
@@ -27,6 +21,7 @@ function itemsReducer(state = initialState, action) {
 
 console.log(initialState);
 
-const store = createStore(itemsReducer);
-
+const store = createStore(
+    itemsReducer,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 export default store;
